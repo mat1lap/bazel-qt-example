@@ -29,6 +29,11 @@ std::vector<TranslationTask> GetTranslationPool(Difficulty difficulty) {
       {"Dog", "Собака", "Man's best friend"},
       {"House", "Дом", "A building where people live"},
       {"Book", "Книга", "You read it"},
+      {"Sun", "Солнце", "The star around which the earth orbits"},
+      {"Moon", "Луна", "The natural satellite of the earth"},
+      {"Car", "Машина", "A four-wheeled road vehicle"},
+      {"Friend", "Друг", "A person with whom one has a bond"},
+      {"Family", "Семья", "A group of parents and children"},
   };
 
   std::vector<TranslationTask> medium = {
@@ -47,6 +52,11 @@ std::vector<TranslationTask> GetTranslationPool(Difficulty difficulty) {
        "Complimenting something"},
       {"Let's go home", "Пойдём домой", "Suggestion to go home"},
       {"I don't understand", "Я не понимаю", "Expressing confusion"},
+      {"Can you help me?", "Вы можете мне помочь?", "Asking for assistance"},
+      {"I need to buy tickets", "Мне нужно купить билеты", "Necessity to purchase"},
+      {"What is your favorite food?", "Какая твоя любимая еда?", "Asking about preferences"},
+      {"I am learning to drive", "Я учусь водить", "Learning a new skill"},
+      {"He plays the guitar well", "Он хорошо играет на гитаре", "Describing an ability"},
   };
 
   std::vector<TranslationTask> hard = {
@@ -85,6 +95,21 @@ std::vector<TranslationTask> GetTranslationPool(Difficulty difficulty) {
       {"It seems to me that it is going to snow",
        "Мне кажется, что будет снег",
        "Impersonal: мне кажется, что..."},
+      {"No matter what happens, stay calm",
+       "Что бы ни случилось, сохраняй спокойствие",
+       "No matter what = что бы ни + past tense"},
+      {"Hardly had I opened the door when the phone rang",
+       "Едва я открыл дверь, как зазвонил телефон",
+       "Hardly... when = Едва... как"},
+      {"You had better see a doctor",
+       "Тебе лучше обратиться к врачу",
+       "Had better = лучше + infinitive"},
+      {"I am not used to waking up so early",
+       "Я не привык просыпаться так рано",
+       "Not used to = не привык + infinitive"},
+      {"By the time you arrive, we will have finished",
+       "К тому времени, как ты приедешь, мы закончим",
+       "Future perfect context translated with perfective future"},
   };
 
   switch (difficulty) {
@@ -116,6 +141,16 @@ std::vector<GrammarTask> GetGrammarPool(Difficulty difficulty) {
        "1st person singular of любить."},
       {"Они ___ в парке.", {"гуляют", "гулять", "гуляет", "гуляю"}, 0,
        "3rd person plural of гулять."},
+      {"Где ___ мой телефон?", {"—", "есть", "быть", "находится"}, 0,
+       "Copula omission in questions about location."},
+      {"Мы ___ русский язык.", {"изучаем", "изучает", "изучать", "изучаю"}, 0,
+       "1st person plural of изучать."},
+      {"Она ___ красивая.", {"очень", "много", "сильно", "хорошо"}, 0,
+       "Adverb modifier for adjectives."},
+      {"Я живу ___ Москве.", {"в", "на", "о", "с"}, 0,
+       "Preposition 'в' with prepositional case for cities."},
+      {"Это ___ машина.", {"моя", "мой", "моё", "мои"}, 0,
+       "Possessive pronoun matching feminine noun."},
   };
 
   std::vector<GrammarTask> medium = {
@@ -144,6 +179,16 @@ std::vector<GrammarTask> GetGrammarPool(Difficulty difficulty) {
       {"Он ___ эту песню, когда был маленьким.",
        {"пел", "поёт", "споёт", "петь"}, 0,
        "Past tense, imperfective of петь."},
+      {"Мне ___ купить хлеб.", {"нужно", "надо", "должен", "обязан"}, 0,
+       "Impersonal modal 'нужно' with dative pronoun 'мне'."},
+      {"Он работал ___.", {"быстро", "быстрый", "быстрая", "быстрые"}, 0,
+       "Adverb modifying a verb."},
+      {"Завтра мы ___ в музей.", {"пойдём", "идём", "ходили", "пойти"}, 0,
+       "Future perfective of идти."},
+      {"Она любит ___ телевизор.", {"смотреть", "смотрит", "смотрела", "смотрю"}, 0,
+       "Infinitive following another conjugated verb."},
+      {"Книга лежит ___ столе.", {"на", "в", "под", "над"}, 0,
+       "Preposition 'на' indicating surface location."},
   };
 
   std::vector<GrammarTask> hard = {
@@ -182,6 +227,21 @@ std::vector<GrammarTask> GetGrammarPool(Difficulty difficulty) {
       {"Я не мог не ___ об этом.",
        {"думать", "подумать", "думаю", "думал"}, 0,
        "Не мочь не + infinitive = can't help but."},
+      {"По ___ я сужу, всё будет хорошо.",
+       {"тому, как", "что", "как", "потому что"}, 0,
+       "По тому, как = judging by how."},
+      {"Она улыбнулась, ___ на него.",
+       {"взглянув", "взгляд", "смотреть", "смотрела"}, 0,
+       "Perfective gerund matching the main action."},
+      {"Он не пришёл, ___ и следовало ожидать.",
+       {"чего", "что", "как", "почему"}, 0,
+       "Чего и следовало ожидать = which was to be expected."},
+      {"Едва он ___ в дом, начался дождь.",
+       {"вошёл", "входит", "войдёт", "входить"}, 0,
+       "Едва + past perfective = hardly had he..."},
+      {"Я сделаю это при ___, что вы поможете.",
+       {"условии", "случае", "обстоятельстве", "ситуации"}, 0,
+       "При условии, что = on the condition that."},
   };
 
   switch (difficulty) {

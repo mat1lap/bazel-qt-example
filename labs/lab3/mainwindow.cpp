@@ -45,18 +45,21 @@ void MainWindow::SetupUi() {
   // Score display
   QWidget* score_card = new QWidget();
   score_card->setStyleSheet(
-      "background: #1e1e2e; border-radius: 10px; border: 1px solid #313244;");
+      "QWidget { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 "
+      "#f9e2af, stop:1 #fab387); border-radius: 12px; }");
   QVBoxLayout* score_layout = new QVBoxLayout(score_card);
-  score_layout->setContentsMargins(12, 10, 12, 10);
+  score_layout->setContentsMargins(16, 14, 16, 14);
 
-  QLabel* score_title = new QLabel("⭐ Total Score");
+  QLabel* score_title = new QLabel("⭐ TOTAL SCORE");
   score_title->setStyleSheet(
-      "font-size: 12px; color: #a6adc8; border: none;");
+      "font-size: 11px; font-weight: bold; color: #7c6020; border: none; "
+      "background: transparent; letter-spacing: 1px;");
   score_layout->addWidget(score_title);
 
   score_label_ = new QLabel("0");
   score_label_->setStyleSheet(
-      "font-size: 28px; font-weight: bold; color: #f9e2af; border: none;");
+      "font-size: 32px; font-weight: bold; color: #11111b; border: none; "
+      "background: transparent;");
   score_layout->addWidget(score_label_);
 
   sidebar_layout->addWidget(score_card);
@@ -64,18 +67,21 @@ void MainWindow::SetupUi() {
   // Difficulty display
   QWidget* diff_card = new QWidget();
   diff_card->setStyleSheet(
-      "background: #1e1e2e; border-radius: 10px; border: 1px solid #313244;");
+      "QWidget { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 "
+      "#89b4fa, stop:1 #cba6f7); border-radius: 12px; }");
   QVBoxLayout* diff_layout = new QVBoxLayout(diff_card);
-  diff_layout->setContentsMargins(12, 10, 12, 10);
+  diff_layout->setContentsMargins(16, 14, 16, 14);
 
-  QLabel* diff_title = new QLabel("📊 Difficulty");
+  QLabel* diff_title = new QLabel("📊 DIFFICULTY");
   diff_title->setStyleSheet(
-      "font-size: 12px; color: #a6adc8; border: none;");
+      "font-size: 11px; font-weight: bold; color: #2e305c; border: none; "
+      "background: transparent; letter-spacing: 1px;");
   diff_layout->addWidget(diff_title);
 
-  difficulty_label_ = new QLabel("🟢 Easy");
+  difficulty_label_ = new QLabel("Easy");
   difficulty_label_->setStyleSheet(
-      "font-size: 16px; font-weight: bold; color: #a6e3a1; border: none;");
+      "font-size: 20px; font-weight: bold; color: #11111b; border: none; "
+      "background: transparent;");
   diff_layout->addWidget(difficulty_label_);
   sidebar_layout->addWidget(diff_card);
 
@@ -235,22 +241,13 @@ void MainWindow::OnDifficultyAction() {
     difficulty_ = dialog.GetSelectedDifficulty();
     switch (difficulty_) {
       case Difficulty::Easy:
-        difficulty_label_->setText("🟢 Easy");
-        difficulty_label_->setStyleSheet(
-            "font-size: 16px; font-weight: bold; color: #a6e3a1; "
-            "border: none;");
+        difficulty_label_->setText("Easy");
         break;
       case Difficulty::Medium:
-        difficulty_label_->setText("🟡 Medium");
-        difficulty_label_->setStyleSheet(
-            "font-size: 16px; font-weight: bold; color: #f9e2af; "
-            "border: none;");
+        difficulty_label_->setText("Medium");
         break;
       case Difficulty::Hard:
-        difficulty_label_->setText("🔴 Hard");
-        difficulty_label_->setStyleSheet(
-            "font-size: 16px; font-weight: bold; color: #f38ba8; "
-            "border: none;");
+        difficulty_label_->setText("Hard");
         break;
     }
   }
