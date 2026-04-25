@@ -20,16 +20,19 @@ qt_cc_library(
         "@rules_qt//:qt_core",
         "@rules_qt//:qt_gui",
         "@rules_qt//:qt_widgets",
+        "@rules_qt//:qt_multimedia",
     ],
 )
 
 qt_cc_binary(
     name = "lab3",
     srcs = ["main.cpp"],
+    data = glob(["sounds/*.wav"]),
     deps = [
         ":lab3_lib",
         "@rules_qt//:qt_core",
         "@rules_qt//:qt_gui",
         "@rules_qt//:qt_widgets",
+        "@rules_qt//:qt_multimedia",
     ],
 )

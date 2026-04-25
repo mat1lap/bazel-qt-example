@@ -7,13 +7,13 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QShortcut>
 #include <QVBoxLayout>
 
 #include "difficulty_dialog.h"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   SetupUi();
-  SetupMenuBar();
   setWindowTitle("LinguaLearn — Language Learning App");
 }
 
@@ -123,6 +123,18 @@ void MainWindow::SetupUi() {
       "QPushButton:pressed { background: #585b70; }");
   sidebar_layout->addWidget(grammar_btn);
 
+  // Difficulty button
+  QPushButton* diff_btn = new QPushButton("⚙️ Difficulty");
+  diff_btn->setFixedHeight(44);
+  diff_btn->setCursor(Qt::PointingHandCursor);
+  diff_btn->setStyleSheet(
+      "QPushButton { background: #313244; color: #cdd6f4; border: none; "
+      "border-radius: 10px; font-size: 14px; font-weight: bold; "
+      "text-align: left; padding-left: 14px; }"
+      "QPushButton:hover { background: #45475a; }"
+      "QPushButton:pressed { background: #585b70; }");
+  sidebar_layout->addWidget(diff_btn);
+
   sidebar_layout->addStretch();
 
   // Help hint
@@ -164,7 +176,7 @@ void MainWindow::SetupUi() {
   welcome_layout->addWidget(welcome_sub);
 
   QLabel* welcome_hint = new QLabel(
-      "\n💡 Tip: Change difficulty via Settings → Difficulty in the menu bar.\n"
+      "\n💡 Tip: Change difficulty via the Difficulty button in the sidebar.\n"
       "Press H during an exercise for a hint.");
   welcome_hint->setStyleSheet(
       "font-size: 13px; color: #585b70; border: none;");
@@ -185,6 +197,8 @@ void MainWindow::SetupUi() {
           &MainWindow::OnTranslationClicked);
   connect(grammar_btn, &QPushButton::clicked, this,
           &MainWindow::OnGrammarClicked);
+  connect(diff_btn, &QPushButton::clicked, this,
+          &MainWindow::OnDifficultyAction);
   connect(translation_widget_, &TranslationWidget::ExerciseFinished, this,
           &MainWindow::OnExerciseFinished);
   connect(grammar_widget_, &GrammarWidget::ExerciseFinished, this,
@@ -192,32 +206,13 @@ void MainWindow::SetupUi() {
 
   // Global stylesheet
   central->setStyleSheet("background: #1e1e2e;");
+
+  // Hint shortcut binding (привязка к key code)
+  QShortcut* hint_shortcut = new QShortcut(QKeySequence(Qt::Key_H), this);
+  connect(hint_shortcut, &QShortcut::activated, this, &MainWindow::ShowHint);
 }
 
-void MainWindow::SetupMenuBar() {
-  QMenuBar* menu_bar = menuBar();
-  menu_bar->setStyleSheet(
-      "QMenuBar { background: #11111b; color: #cdd6f4; font-size: 13px; "
-      "border-bottom: 1px solid #313244; }"
-      "QMenuBar::item { padding: 6px 14px; }"
-      "QMenuBar::item:selected { background: #313244; }"
-      "QMenu { background: #1e1e2e; color: #cdd6f4; border: 1px solid "
-      "#313244; }"
-      "QMenu::item { padding: 6px 24px; }"
-      "QMenu::item:selected { background: #313244; }");
 
-  // File menu
-  QMenu* file_menu = menu_bar->addMenu("&File");
-  QAction* exit_action = file_menu->addAction("Exit");
-  exit_action->setShortcut(QKeySequence("Ctrl+Q"));
-  connect(exit_action, &QAction::triggered, this, &QWidget::close);
-
-  // Settings menu
-  QMenu* settings_menu = menu_bar->addMenu("&Settings");
-  QAction* difficulty_action = settings_menu->addAction("Difficulty...");
-  connect(difficulty_action, &QAction::triggered, this,
-          &MainWindow::OnDifficultyAction);
-}
 
 void MainWindow::UpdateScoreDisplay() {
   score_label_->setText(QString::number(total_score_));
@@ -258,31 +253,27 @@ void MainWindow::OnExerciseFinished(int points) {
   UpdateScoreDisplay();
 }
 
-void MainWindow::keyPressEvent(QKeyEvent* event) {
-  if (event->key() == Qt::Key_H) {
-    QString hint;
-    int current_page = stack_->currentIndex();
+void MainWindow::ShowHint() {
+  QString hint;
+  int current_page = stack_->currentIndex();
 
-    if (current_page == Page::Translation) {
-      hint = translation_widget_->GetCurrentHint();
-    } else if (current_page == Page::Grammar) {
-      hint = grammar_widget_->GetCurrentHint();
-    } else {
-      hint = "Start an exercise first to get hints!";
-    }
-
-    QMessageBox hint_box(this);
-    hint_box.setWindowTitle("💡 Hint");
-    hint_box.setText(hint);
-    hint_box.setIcon(QMessageBox::Information);
-    hint_box.setStyleSheet(
-        "QMessageBox { background: #1e1e2e; }"
-        "QMessageBox QLabel { color: #cdd6f4; font-size: 14px; }"
-        "QPushButton { background: #89b4fa; color: #1e1e2e; border: none; "
-        "border-radius: 6px; padding: 6px 18px; font-weight: bold; }"
-        "QPushButton:hover { background: #74c7ec; }");
-    hint_box.exec();
-    return;
+  if (current_page == Page::Translation) {
+    hint = translation_widget_->GetCurrentHint();
+  } else if (current_page == Page::Grammar) {
+    hint = grammar_widget_->GetCurrentHint();
+  } else {
+    hint = "Start an exercise first to get hints!";
   }
-  QMainWindow::keyPressEvent(event);
+
+  QMessageBox hint_box(this);
+  hint_box.setWindowTitle("💡 Hint");
+  hint_box.setText(hint);
+  hint_box.setIcon(QMessageBox::Information);
+  hint_box.setStyleSheet(
+      "QMessageBox { background: #1e1e2e; }"
+      "QMessageBox QLabel { color: #cdd6f4; font-size: 14px; }"
+      "QPushButton { background: #89b4fa; color: #1e1e2e; border: none; "
+      "border-radius: 6px; padding: 6px 18px; font-weight: bold; }"
+      "QPushButton:hover { background: #74c7ec; }");
+  hint_box.exec();
 }

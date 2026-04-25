@@ -7,6 +7,13 @@ TranslationWidget::TranslationWidget(QWidget* parent) : QWidget(parent) {
   SetupUi();
   timer_ = new QTimer(this);
   connect(timer_, &QTimer::timeout, this, &TranslationWidget::OnTimerTick);
+
+  correct_sound_.setSource(QUrl::fromLocalFile("labs/lab3/sounds/correct.wav"));
+  wrong_sound_.setSource(QUrl::fromLocalFile("labs/lab3/sounds/wrong.wav"));
+  complete_sound_.setSource(QUrl::fromLocalFile("labs/lab3/sounds/complete.wav"));
+  correct_sound_.setVolume(0.5f);
+  wrong_sound_.setVolume(0.5f);
+  complete_sound_.setVolume(0.6f);
 }
 
 void TranslationWidget::SetupUi() {
@@ -165,6 +172,7 @@ void TranslationWidget::OnSubmit() {
   const auto& task = tasks_[current_task_];
 
   if (CheckTranslation(user_answer, task.russian)) {
+    correct_sound_.play();
     feedback_label_->setStyleSheet(kSuccessStyle);
     feedback_label_->setText("✅ Correct!");
     feedback_label_->show();
@@ -180,6 +188,7 @@ void TranslationWidget::OnSubmit() {
       }
     });
   } else {
+    wrong_sound_.play();
     wrong_attempts_++;
     wrong_count_label_->setText(
         QString("❌ %1 / %2").arg(wrong_attempts_).arg(max_wrong_));
@@ -248,6 +257,7 @@ void TranslationWidget::FinishExercise(bool success) {
   answer_input_->setEnabled(false);
 
   if (success) {
+    complete_sound_.play();
     progress_bar_->setValue(100);
     QMessageBox::information(
         this, "Exercise Complete! 🎉",

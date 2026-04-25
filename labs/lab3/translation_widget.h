@@ -5,6 +5,7 @@
 #include <QLineEdit>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QSoundEffect>
 #include <QTimer>
 #include <QWidget>
 #include <vector>
@@ -52,6 +53,10 @@ class TranslationWidget : public QWidget {
   int points_ = 0;
   Difficulty difficulty_ = Difficulty::Easy;
   bool active_ = false;
+
+  QSoundEffect correct_sound_;
+  QSoundEffect wrong_sound_;
+  QSoundEffect complete_sound_;
 };
 
 #endif

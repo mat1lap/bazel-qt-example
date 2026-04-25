@@ -15,8 +15,7 @@ class MainWindow : public QMainWindow {
  public:
   explicit MainWindow(QWidget* parent = nullptr);
 
- protected:
-  void keyPressEvent(QKeyEvent* event) override;
+  void ShowHint();
 
  private slots:
   void OnTranslationClicked();
@@ -26,7 +25,6 @@ class MainWindow : public QMainWindow {
 
  private:
   void SetupUi();
-  void SetupMenuBar();
   void UpdateScoreDisplay();
 
   QStackedWidget* stack_;
